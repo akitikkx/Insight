@@ -3,7 +3,7 @@ buildscript {
     ext {
         gson_version = "2.9.0"
 
-        hilt_version = "2.33-beta"
+        hilt_version = "2.35"
 
         kotlin_version = "1.5.0"
 
@@ -21,6 +21,7 @@ buildscript {
     repositories {
         google()
         mavenCentral()
+        mavenLocal()
     }
     dependencies {
         classpath "com.android.tools.build:gradle:4.2.0"
@@ -36,6 +37,7 @@ allprojects {
     repositories {
         google()
         mavenCentral()
+        mavenLocal()
     }
 }
 
