@@ -1,5 +1,6 @@
 package com.ahmedtikiwa.insight.network
 
+import com.ahmedtikiwa.insight.BuildConfig
 import okhttp3.HttpUrl
 import okhttp3.Interceptor
 import okhttp3.Request
@@ -13,7 +14,7 @@ class OmdbConnectionInterceptor : Interceptor {
         val originalHttpUrl: HttpUrl = original.url
 
         val url = originalHttpUrl.newBuilder()
-            .addQueryParameter("apiKey", "381d7e60")
+            .addQueryParameter("apiKey", BuildConfig.OMDB_API_KEY)
             .build()
 
         val requestBuilder: Request.Builder = original.newBuilder()
