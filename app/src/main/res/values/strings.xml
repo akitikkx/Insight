@@ -1,6 +1,5 @@
 <resources>
     <string name="app_name">Insight</string>
-    <string name="hello_blank_fragment">Hello blank fragment</string>
 
     <!-- Search screen -->
     <string name="search_screen_hint_text">Movie or TV Show Title</string>
