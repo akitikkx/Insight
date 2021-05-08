@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="appbar_elevation">4dp</dimen>
+
+    <dimen name="margin_horizontal_standard">8dp</dimen>
+    <dimen name="margin_vertical_standard">8dp</dimen>
+
+    <dimen name="padding_standard">8dp</dimen>
+    <dimen name="padding_standard_double">16dp</dimen>
+</resources>

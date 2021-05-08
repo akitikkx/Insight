@@ -1,8 +1,8 @@
 package com.ahmedtikiwa.insight.network.models
 
-import com.ahmedtikiwa.insight.domain.TvMovieDetail
+import com.ahmedtikiwa.insight.domain.SeriesMovieDetail
 
-data class NetworkTvMovieDetailResponse(
+data class NetworkSeriesMovieDetailResponse(
     val Actors: String,
     val Awards: String,
     val Country: String,
@@ -32,8 +32,8 @@ data class Rating(
     val Value: String
 )
 
-fun NetworkTvMovieDetailResponse.asDomainModel() : TvMovieDetail {
-    return TvMovieDetail(
+fun NetworkSeriesMovieDetailResponse.asDomainModel() : SeriesMovieDetail {
+    return SeriesMovieDetail(
         imdbID = imdbID,
         title = Title,
         poster = Poster,

@@ -3,7 +3,7 @@ package com.ahmedtikiwa.insight.repository
 import com.ahmedtikiwa.insight.network.models.NetworkMovieSearchResponse
 import com.ahmedtikiwa.insight.network.models.NetworkSeriesSearchReponse
 import com.ahmedtikiwa.insight.network.OmdbConnectionInterceptor
-import com.ahmedtikiwa.insight.network.models.NetworkTvMovieDetailResponse
+import com.ahmedtikiwa.insight.network.models.NetworkSeriesMovieDetailResponse
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import kotlinx.coroutines.Deferred
 import okhttp3.ConnectionPool
@@ -28,9 +28,9 @@ interface OmdbService {
     ): Deferred<NetworkMovieSearchResponse>
 
     @GET("{i}")
-    fun getTvMovieDetailAsync(
+    fun getSeriesMovieDetailAsync(
         @Path("i") i: String
-    ): Deferred<NetworkTvMovieDetailResponse>
+    ): Deferred<NetworkSeriesMovieDetailResponse>
 }
 
 object OmdbNetwork {

@@ -1,6 +1,6 @@
 package com.ahmedtikiwa.insight.domain
 
-data class TvMovieDetail(
+data class SeriesMovieDetail(
     val imdbID: String?,
     val title: String?,
     val poster: String?,

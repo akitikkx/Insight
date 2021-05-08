@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">Insight</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <!-- Search screen -->
+    <string name="search_screen_hint_text">Movie or TV Show Title</string>
+    <string name="search_screen_button_movie">Search Movie</string>
+    <string name="search_screen_button_series">Search Series</string>
+    <string name="search_screen_movie_input_empty_error">Please provide a movie title</string>
+    <string name="search_screen_series_input_empty_error">Please provide a series title</string>
 </resources>
