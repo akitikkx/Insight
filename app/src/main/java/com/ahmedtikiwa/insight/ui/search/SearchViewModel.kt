@@ -35,8 +35,8 @@ class SearchViewModel @Inject constructor(
 
     val isLoading = repository.isLoading
 
-    private val _selectedResult = MutableLiveData<SearchResultArg>()
-    val selectedResult: LiveData<SearchResultArg> = _selectedResult
+    private val _selectedResult = MutableLiveData<SearchResultArg?>()
+    val selectedResult: LiveData<SearchResultArg?> = _selectedResult
 
     fun onMovieSearchClick() {
         _movieSearchRequest.postValue(true)
@@ -60,6 +60,15 @@ class SearchViewModel @Inject constructor(
 
     fun onSearchResultClick(result: SearchResultArg) {
         _selectedResult.postValue(result)
+    }
+
+    fun onSearchRequestCompleted() {
+        _movieSearchRequest.postValue(false)
+        _seriesSearchRequest.postValue(false)
+    }
+
+    fun navigateToDetailComplete() {
+        _selectedResult.postValue(null)
     }
 
 }

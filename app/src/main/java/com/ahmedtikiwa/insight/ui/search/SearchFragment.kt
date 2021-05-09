@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import com.ahmedtikiwa.insight.R
 import com.ahmedtikiwa.insight.databinding.FragmentSearchBinding
 import com.ahmedtikiwa.insight.domain.SearchResultArg
@@ -41,6 +42,7 @@ class SearchFragment : Fragment() {
                 if (query.isNotBlank()) {
                     binding.textinputSearch.error = null
                     viewModel.onMovieQueryReceived(query)
+                    viewModel.onSearchRequestCompleted()
                 } else {
                     binding.textinputSearch.error =
                         getString(R.string.search_screen_movie_input_empty_error)
@@ -54,6 +56,7 @@ class SearchFragment : Fragment() {
                 if (query.isNotBlank()) {
                     binding.textinputSearch.error = null
                     viewModel.onSeriesQueryReceived(query)
+                    viewModel.onSearchRequestCompleted()
                 } else {
                     binding.textinputSearch.error =
                         getString(R.string.search_screen_series_input_empty_error)
@@ -85,7 +88,14 @@ class SearchFragment : Fragment() {
 
         viewModel.selectedResult.observe(viewLifecycleOwner, { searchResult ->
             if (searchResult != null) {
-
+                searchResult.imdbID?.let {
+                    findNavController().navigate(
+                        SearchFragmentDirections.actionSearchFragmentToDetailFragment(
+                            it
+                        )
+                    )
+                    viewModel.navigateToDetailComplete()
+                }
             }
         })
     }
