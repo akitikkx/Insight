@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:bind="http://schemas.android.com/tools">
 
     <data>
 
@@ -8,11 +9,29 @@
             name="viewModel"
             type="com.ahmedtikiwa.insight.ui.search.SearchViewModel" />
 
+        <variable
+            name="result"
+            type="com.ahmedtikiwa.insight.domain.SearchResultArg" />
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/textview_search_screen_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_horizontal_standard"
+            android:layout_marginTop="@dimen/margin_vertical_standard"
+            android:layout_marginEnd="@dimen/margin_horizontal_standard"
+            android:gravity="center_horizontal"
+            android:text="@string/search_screen_title"
+            android:textAppearance="?attr/textAppearanceHeadline4"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/textinput_search"
@@ -20,14 +39,14 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/margin_horizontal_standard"
+            android:layout_marginTop="@dimen/margin_vertical_standard"
             android:layout_marginEnd="@dimen/margin_horizontal_standard"
             android:padding="@dimen/padding_standard_double"
             app:errorEnabled="true"
             app:hintEnabled="false"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toBottomOf="@id/textview_search_screen_title">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/edittext_title"
@@ -37,34 +56,57 @@
                 android:padding="@dimen/padding_standard_double" />
         </com.google.android.material.textfield.TextInputLayout>
 
-        <Button
-            android:id="@+id/button_movie_search"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/button_container"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/margin_horizontal_standard"
-            android:clickable="true"
-            android:focusable="true"
-            android:onClick="@{() -> viewModel.onMovieSearchClick()}"
-            android:text="@string/search_screen_button_movie"
-            app:layout_constraintEnd_toStartOf="@id/button_series_search"
-            app:layout_constraintHorizontal_chainStyle="packed"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/textinput_search" />
-
-        <Button
-            android:id="@+id/button_series_search"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/margin_horizontal_standard"
-            android:layout_marginEnd="@dimen/margin_horizontal_standard"
-            android:clickable="true"
-            android:focusable="true"
-            android:onClick="@{() -> viewModel.onSeriesSearchClick()}"
-            android:text="@string/search_screen_button_series"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_chainStyle="packed"
-            app:layout_constraintStart_toEndOf="@id/button_movie_search"
-            app:layout_constraintTop_toBottomOf="@id/textinput_search" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/textinput_search">
+
+            <Button
+                android:id="@+id/button_movie_search"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_horizontal_standard"
+                android:clickable="true"
+                android:focusable="true"
+                android:onClick="@{() -> viewModel.onMovieSearchClick()}"
+                android:text="@string/search_screen_button_movie"
+                app:layout_constraintEnd_toStartOf="@id/button_series_search"
+                app:layout_constraintHorizontal_chainStyle="packed"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <Button
+                android:id="@+id/button_series_search"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_horizontal_standard"
+                android:layout_marginEnd="@dimen/margin_horizontal_standard"
+                android:clickable="true"
+                android:focusable="true"
+                android:onClick="@{() -> viewModel.onSeriesSearchClick()}"
+                android:text="@string/search_screen_button_series"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_chainStyle="packed"
+                app:layout_constraintStart_toEndOf="@id/button_movie_search"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <include
+            layout="@layout/search_result_item"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_horizontal_standard"
+            android:layout_marginTop="@dimen/margin_vertical_standard"
+            android:layout_marginEnd="@dimen/margin_horizontal_standard"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/button_container"
+            app:showHideView="@{result != null}"
+            bind:result="@{result}"
+            bind:viewModel="@{viewModel}" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

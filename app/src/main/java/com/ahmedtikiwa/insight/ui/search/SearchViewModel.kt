@@ -4,6 +4,7 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.ahmedtikiwa.insight.domain.SearchResultArg
 import com.ahmedtikiwa.insight.repository.OmdbRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
@@ -28,6 +29,13 @@ class SearchViewModel @Inject constructor(
     private val _seriesSearchRequest = MutableLiveData<Boolean>()
     val seriesSearchRequest: LiveData<Boolean> = _seriesSearchRequest
 
+    val movieSearchResult = repository.movieSearch
+
+    val seriesSearchResult = repository.seriesSearch
+
+    private val _selectedResult = MutableLiveData<SearchResultArg>()
+    val selectedResult: LiveData<SearchResultArg> = _selectedResult
+
     fun onMovieSearchClick() {
         _movieSearchRequest.postValue(true)
     }
@@ -46,6 +54,10 @@ class SearchViewModel @Inject constructor(
         viewModelScope.launch {
             repository.getSeriesSearch(query)
         }
+    }
+
+    fun onSearchResultClick(result: SearchResultArg) {
+        _selectedResult.postValue(result)
     }
 
 }

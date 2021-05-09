@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.ahmedtikiwa.insight.R
 import com.ahmedtikiwa.insight.databinding.FragmentSearchBinding
+import com.ahmedtikiwa.insight.domain.SearchResultArg
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -57,6 +58,34 @@ class SearchFragment : Fragment() {
                     binding.textinputSearch.error =
                         getString(R.string.search_screen_series_input_empty_error)
                 }
+            }
+        })
+
+        viewModel.movieSearchResult.observe(viewLifecycleOwner, { movieResult ->
+            if (movieResult != null) {
+                binding.result = SearchResultArg(
+                    poster = movieResult.poster,
+                    title = movieResult.title,
+                    year = movieResult.year,
+                    imdbID = movieResult.imdbID
+                )
+            }
+        })
+
+        viewModel.seriesSearchResult.observe(viewLifecycleOwner, { seriesResult ->
+            if (seriesResult != null) {
+                binding.result = SearchResultArg(
+                    poster = seriesResult.poster,
+                    title = seriesResult.title,
+                    year = seriesResult.year,
+                    imdbID = seriesResult.imdbID
+                )
+            }
+        })
+
+        viewModel.selectedResult.observe(viewLifecycleOwner, { searchResult ->
+            if (searchResult != null) {
+
             }
         })
     }
