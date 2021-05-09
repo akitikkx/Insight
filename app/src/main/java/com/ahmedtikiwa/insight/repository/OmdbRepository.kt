@@ -20,13 +20,18 @@ class OmdbRepository {
     private val _detail = MutableLiveData<SeriesMovieDetail>()
     val detail: LiveData<SeriesMovieDetail> = _detail
 
+    private val _isLoading = MutableLiveData<Boolean>()
+    val isLoading: LiveData<Boolean> = _isLoading
+
     suspend fun getSeriesSearch(title: String) {
         withContext(Dispatchers.IO) {
             try {
+                _isLoading.postValue(true)
                 val response = OmdbNetwork.omdbApi.getSeriesSearchAsync(title).await()
                 _seriesSearch.postValue(response.asDomainModel())
+                _isLoading.postValue(false)
             } catch (e: Exception) {
-
+                _isLoading.postValue(false)
             }
         }
     }
@@ -34,10 +39,12 @@ class OmdbRepository {
     suspend fun getMovieSearch(title: String) {
         withContext(Dispatchers.IO) {
             try {
+                _isLoading.postValue(true)
                 val response = OmdbNetwork.omdbApi.getMovieSearchAsync(title).await()
                 _movieSearch.postValue(response.asDomainModel())
+                _isLoading.postValue(false)
             } catch (e: Exception) {
-
+                _isLoading.postValue(false)
             }
         }
     }
@@ -45,10 +52,12 @@ class OmdbRepository {
     suspend fun getSeriesMovieDetail(imdbID: String) {
         withContext(Dispatchers.IO) {
             try {
+                _isLoading.postValue(true)
                 val response = OmdbNetwork.omdbApi.getSeriesMovieDetailAsync(imdbID).await()
                 _detail.postValue(response.asDomainModel())
+                _isLoading.postValue(false)
             } catch (e: Exception) {
-
+                _isLoading.postValue(false)
             }
         }
     }

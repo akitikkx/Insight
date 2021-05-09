@@ -33,6 +33,8 @@ class SearchViewModel @Inject constructor(
 
     val seriesSearchResult = repository.seriesSearch
 
+    val isLoading = repository.isLoading
+
     private val _selectedResult = MutableLiveData<SearchResultArg>()
     val selectedResult: LiveData<SearchResultArg> = _selectedResult
 
