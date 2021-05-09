@@ -28,3 +28,25 @@ fun setImageUrl(imageView: ImageView, url: String?) {
 
     }
 }
+
+@BindingAdapter("wideImageUrl")
+fun setWideImageUrl(imageView: ImageView, url: String?) {
+    if (url.isNullOrEmpty()) {
+        return
+    }
+
+    val requestOptions = RequestOptions()
+        .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
+
+    try {
+        Glide.with(imageView.context)
+            .load(url)
+            .placeholder(R.drawable.backdrop_background)
+            .error(R.drawable.backdrop_background)
+            .fallback(R.drawable.backdrop_background)
+            .apply(requestOptions)
+            .into(imageView)
+    } catch (e: Exception) {
+
+    }
+}

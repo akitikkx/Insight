@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Insight</string>
+    <string name="app_name">Insight: Movies and Series Search</string>
 
     <!-- Search screen -->
     <string name="search_screen_title">Search for either a movie or series</string>

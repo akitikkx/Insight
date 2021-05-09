@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
@@ -9,15 +10,67 @@
             type="com.ahmedtikiwa.insight.ui.detail.DetailViewModel" />
     </data>
 
-    <FrameLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/show_detail_container"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context=".ui.detail.DetailFragment">
+        android:layout_height="match_parent">
 
-        <TextView
+        <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="Hello" />
+            android:clipToPadding="false"
+            android:fillViewport="true">
 
-    </FrameLayout>
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/result_card_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:paddingBottom="@dimen/margin_vertical_standard">
+
+                    <FrameLayout
+                        android:id="@+id/result_detail_backdrop"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <ProgressBar
+                            android:id="@+id/poster_progress"
+                            style="?android:attr/progressBarStyleSmall"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            app:showHideView="@{viewModel.detail.poster != null}" />
+
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/show_backdrop_height"
+                            android:contentDescription="@{String.format(@string/result_poster, viewModel.detail.title)}"
+                            android:scaleType="matrix"
+                            android:src="@color/grey_light"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:wideImageUrl="@{viewModel.detail.poster}" />
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/show_detail_gradient_height"
+                            android:layout_gravity="bottom"
+                            android:background="@drawable/gradient_backdrop_bottom" />
+                    </FrameLayout>
+
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+        </androidx.core.widget.NestedScrollView>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

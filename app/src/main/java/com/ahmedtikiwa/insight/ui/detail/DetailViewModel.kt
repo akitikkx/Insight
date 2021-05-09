@@ -8,12 +8,30 @@ import com.ahmedtikiwa.insight.repository.OmdbRepository
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.launch
 
 class DetailViewModel @AssistedInject constructor(
     application: Application,
     repository: OmdbRepository,
     @Assisted imdbID: String
 ) : AndroidViewModel(application) {
+
+    private val viewModelJob = SupervisorJob()
+
+    private val viewModelScope = CoroutineScope(viewModelJob + Dispatchers.Main)
+
+    val isLoading = repository.isLoading
+
+    val detail = repository.detail
+
+    init {
+        viewModelScope.launch {
+            repository.getSeriesMovieDetail(imdbID)
+        }
+    }
 
     @AssistedFactory
     interface DetailViewModelFactory {
