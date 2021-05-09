@@ -13,23 +13,26 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
 import retrofit2.http.Path
+import retrofit2.http.Query
 import java.util.concurrent.TimeUnit
 
 interface OmdbService {
 
-    @GET("{t}")
+    @GET("/")
     fun getSeriesSearchAsync(
-        @Path("t") t: String,
+        @Query("t") t: String,
+        @Query("type") type: String = "series"
     ): Deferred<NetworkSeriesSearchReponse>
 
-    @GET("{t}")
+    @GET("/")
     fun getMovieSearchAsync(
-        @Path("t") t: String,
+        @Query("t") t: String,
+        @Query("type") type: String = "movie"
     ): Deferred<NetworkMovieSearchResponse>
 
-    @GET("{i}")
+    @GET("/")
     fun getSeriesMovieDetailAsync(
-        @Path("i") i: String
+        @Query("i") i: String
     ): Deferred<NetworkSeriesMovieDetailResponse>
 }
 

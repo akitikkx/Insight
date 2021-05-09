@@ -6,6 +6,10 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.ahmedtikiwa.insight.repository.OmdbRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -13,6 +17,10 @@ class SearchViewModel @Inject constructor(
     application: Application,
     private val repository: OmdbRepository
 ) : AndroidViewModel(application) {
+
+    private val viewModelJob = SupervisorJob()
+
+    private val viewModelScope = CoroutineScope(viewModelJob + Dispatchers.Main)
 
     private val _movieSearchRequest = MutableLiveData<Boolean>()
     val movieSearchRequest: LiveData<Boolean> = _movieSearchRequest
@@ -29,11 +37,15 @@ class SearchViewModel @Inject constructor(
     }
 
     fun onMovieQueryReceived(query: String) {
-
+        viewModelScope.launch {
+            repository.getMovieSearch(query)
+        }
     }
 
     fun onSeriesQueryReceived(query: String) {
-
+        viewModelScope.launch {
+            repository.getSeriesSearch(query)
+        }
     }
 
 }
