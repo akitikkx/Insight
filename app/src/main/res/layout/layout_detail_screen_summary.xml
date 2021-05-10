@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.ahmedtikiwa.insight.ui.detail.DetailViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/detail_rated_heading"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/detail_screen_rated_heading"
+            android:textAllCaps="true"
+            android:textAppearance="?attr/textAppearanceCaption"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:showHideStringContent="@{viewModel.detail.rated}" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/show_detail_rated"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@{viewModel.detail.rated}"
+            android:textAppearance="?attr/textAppearanceBody2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/detail_rated_heading"
+            app:showHideStringContent="@{viewModel.detail.rated}"
+            tools:text="Air days" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/detail_genre_heading"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_vertical_half"
+            android:text="@string/detail_screen_genre_heading"
+            android:textAllCaps="true"
+            android:textAppearance="?attr/textAppearanceCaption"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/show_detail_rated"
+            app:showHideStringContent="@{viewModel.detail.genre}" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/show_detail_genres"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@{viewModel.detail.genre}"
+            android:textAppearance="?attr/textAppearanceBody2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/detail_genre_heading"
+            app:showHideStringContent="@{viewModel.detail.genre}"
+            tools:text="Genre" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/detail_rating_heading"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_vertical_half"
+            android:text="@string/detail_screen_rating_heading"
+            android:textAllCaps="true"
+            android:textAppearance="?attr/textAppearanceCaption"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/show_detail_genres"
+            app:showHideStringContent="@{viewModel.detail.imdbRating}" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/show_detail_rating"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@{String.format(@string/detail_screen_rating, viewModel.detail.imdbRating)}"
+            android:textAppearance="?attr/textAppearanceBody2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/detail_rating_heading"
+            tools:text="8/10" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>
