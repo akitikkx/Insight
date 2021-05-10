@@ -35,16 +35,12 @@ fun setWideImageUrl(imageView: ImageView, url: String?) {
         return
     }
 
-    val requestOptions = RequestOptions()
-        .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
-
     try {
         Glide.with(imageView.context)
             .load(url)
             .placeholder(R.drawable.backdrop_background)
             .error(R.drawable.backdrop_background)
             .fallback(R.drawable.backdrop_background)
-            .apply(requestOptions)
             .into(imageView)
     } catch (e: Exception) {
 

@@ -17,9 +17,8 @@
     <dimen name="search_poster_height">110dp</dimen>
 
     <!-- Show Detail -->
-    <dimen name="show_detail_poster_height">180dp</dimen>
     <dimen name="detail_poster_width">130dp</dimen>
     <dimen name="detail_poster_height">250dp</dimen>
-    <dimen name="show_backdrop_height">250dp</dimen>
-    <dimen name="show_detail_gradient_height">100dp</dimen>
+    <dimen name="detail_backdrop_height">250dp</dimen>
+    <dimen name="detail_gradient_height">100dp</dimen>
 </resources>

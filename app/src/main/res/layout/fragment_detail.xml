@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:bind="http://schemas.android.com/tools"
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
@@ -11,7 +12,7 @@
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/show_detail_container"
+        android:id="@+id/detail_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -49,7 +50,7 @@
 
                         <androidx.appcompat.widget.AppCompatImageView
                             android:layout_width="match_parent"
-                            android:layout_height="@dimen/show_backdrop_height"
+                            android:layout_height="@dimen/detail_backdrop_height"
                             android:contentDescription="@{String.format(@string/result_poster, viewModel.detail.title)}"
                             android:scaleType="matrix"
                             android:src="@color/grey_light"
@@ -60,11 +61,101 @@
 
                         <View
                             android:layout_width="match_parent"
-                            android:layout_height="@dimen/show_detail_gradient_height"
+                            android:layout_height="@dimen/detail_gradient_height"
                             android:layout_gravity="bottom"
                             android:background="@drawable/gradient_backdrop_bottom" />
                     </FrameLayout>
 
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/text_view_detail_title"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/margin_horizontal_double"
+                        android:layout_marginTop="@dimen/margin_vertical_standard"
+                        android:layout_marginEnd="@dimen/margin_horizontal_double"
+                        android:layout_marginBottom="@dimen/margin_vertical_standard"
+                        android:text="@{viewModel.detail.title}"
+                        android:textAppearance="?attr/textAppearanceHeadline4"
+                        android:textStyle="bold"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/result_detail_backdrop"
+                        tools:text="Result Title" />
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/text_view_detail_plot"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/margin_horizontal_double"
+                        android:layout_marginTop="@dimen/margin_vertical_half"
+                        android:layout_marginEnd="@dimen/margin_horizontal_double"
+                        android:text="@{viewModel.detail.plot}"
+                        android:textAppearance="?attr/textAppearanceBody2"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/text_view_detail_title"
+                        tools:text="@tools:sample/lorem/random" />
+
+                    <LinearLayout
+                        android:id="@+id/poster_and_detail_layer"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/margin_horizontal_double"
+                        android:layout_marginTop="@dimen/margin_vertical_standard"
+                        android:layout_marginEnd="@dimen/margin_horizontal_double"
+                        android:orientation="horizontal"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/text_view_detail_plot">
+
+                        <FrameLayout
+                            android:id="@+id/detail_poster"
+                            android:layout_width="wrap_content"
+                            android:layout_height="@dimen/detail_poster_height"
+                            android:layout_marginTop="@dimen/margin_vertical_standard"
+                            android:layout_marginBottom="@dimen/margin_vertical_standard"
+                            android:orientation="vertical">
+
+                            <ProgressBar
+                                android:id="@+id/detail_poster_progress"
+                                style="?android:attr/progressBarStyleSmall"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                app:showHideView="@{viewModel.detail.poster != null}" />
+
+                            <androidx.appcompat.widget.AppCompatImageView
+                                android:id="@+id/poster"
+                                android:layout_width="@dimen/detail_poster_width"
+                                android:layout_height="match_parent"
+                                android:layout_marginEnd="@dimen/margin_horizontal_half"
+                                android:contentDescription="@{String.format(@string/result_poster, viewModel.detail.title)}"
+                                android:scaleType="centerCrop"
+                                app:imageUrl="@{viewModel.detail.poster}" />
+                        </FrameLayout>
+
+                        <include
+                            layout="@layout/layout_detail_screen_summary"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/margin_horizontal_double"
+                            android:layout_marginTop="@dimen/margin_vertical_standard"
+                            android:layout_marginEnd="@dimen/margin_horizontal_double"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toEndOf="@id/detail_poster"
+                            app:layout_constraintTop_toTopOf="@id/detail_poster"
+                            bind:viewModel="@{viewModel}" />
+                    </LinearLayout>
+
+                    <ProgressBar
+                        android:id="@+id/result_progress_bar"
+                        style="?attr/progressBarStyle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:indeterminateTint="@android:color/holo_red_dark"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:showHideView="@{viewModel.isLoading}" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 

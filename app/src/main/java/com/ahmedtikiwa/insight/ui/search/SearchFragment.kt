@@ -10,6 +10,7 @@ import androidx.navigation.fragment.findNavController
 import com.ahmedtikiwa.insight.R
 import com.ahmedtikiwa.insight.databinding.FragmentSearchBinding
 import com.ahmedtikiwa.insight.domain.SearchResultArg
+import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -65,24 +66,42 @@ class SearchFragment : Fragment() {
         })
 
         viewModel.movieSearchResult.observe(viewLifecycleOwner, { movieResult ->
-            if (movieResult != null) {
+            if (movieResult != null && movieResult.response == true) {
                 binding.result = SearchResultArg(
                     poster = movieResult.poster,
                     title = movieResult.title,
                     year = movieResult.year,
-                    imdbID = movieResult.imdbID
+                    imdbID = movieResult.imdbID,
+                    response = movieResult.response,
+                    error = movieResult.error
                 )
+            } else if (movieResult.response == false) {
+                movieResult.error?.let {
+                    Snackbar.make(
+                        binding.root,
+                        it, Snackbar.LENGTH_LONG
+                    ).show()
+                }
             }
         })
 
         viewModel.seriesSearchResult.observe(viewLifecycleOwner, { seriesResult ->
-            if (seriesResult != null) {
+            if (seriesResult != null && seriesResult.response == true) {
                 binding.result = SearchResultArg(
                     poster = seriesResult.poster,
                     title = seriesResult.title,
                     year = seriesResult.year,
-                    imdbID = seriesResult.imdbID
+                    imdbID = seriesResult.imdbID,
+                    response = seriesResult.response,
+                    error = seriesResult.error
                 )
+            } else if (seriesResult.response == false) {
+                seriesResult.error?.let {
+                    Snackbar.make(
+                        binding.root,
+                        it, Snackbar.LENGTH_LONG
+                    ).show()
+                }
             }
         })
 
@@ -104,5 +123,4 @@ class SearchFragment : Fragment() {
         super.onDestroyView()
         _binding = null
     }
-
 }

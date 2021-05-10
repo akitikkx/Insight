@@ -7,6 +7,7 @@ data class NetworkSeriesMovieDetailResponse(
     val Awards: String,
     val Country: String,
     val Director: String,
+    val Error: String?,
     val Genre: String,
     val Language: String,
     val Metascore: String,
@@ -44,6 +45,8 @@ fun NetworkSeriesMovieDetailResponse.asDomainModel() : SeriesMovieDetail {
         runtime = Runtime,
         rated = Rated,
         released = Released,
-        imdbRating = imdbRating
+        imdbRating = imdbRating,
+        response = Response.toBoolean(),
+        error = Error
     )
 }

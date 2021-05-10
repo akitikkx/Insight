@@ -7,6 +7,7 @@ data class NetworkSeriesSearchReponse(
     val Awards: String,
     val Country: String,
     val Director: String,
+    val Error: String?,
     val Genre: String,
     val Language: String,
     val Metascore: String,
@@ -32,11 +33,13 @@ data class NetworkSeriesSearchResponseRating(
     val Value: String
 )
 
-fun NetworkSeriesSearchReponse.asDomainModel() : SeriesSearch {
+fun NetworkSeriesSearchReponse.asDomainModel(): SeriesSearch {
     return SeriesSearch(
         imdbID = imdbID,
         title = Title,
         year = Year,
-        poster = Poster
+        poster = Poster,
+        response = Response.toBoolean(),
+        error = Error
     )
 }

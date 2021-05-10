@@ -9,6 +9,7 @@ data class NetworkMovieSearchResponse(
     val Country: String,
     val DVD: String,
     val Director: String,
+    val Error: String?,
     val Genre: String,
     val Language: String,
     val Metascore: String,
@@ -40,6 +41,8 @@ fun NetworkMovieSearchResponse.asDomainModel() : MovieSearch {
         imdbID = imdbID,
         title = Title,
         year = Year,
-        poster = Poster
+        poster = Poster,
+        response = Response.toBoolean(),
+        error = Error
     )
 }

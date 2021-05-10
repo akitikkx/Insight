@@ -10,4 +10,10 @@
     <string name="search_screen_series_input_empty_error">Please provide a series title</string>
     <string name="search_results_title">Search Results</string>
     <string name="result_poster">%1$s poster</string>
+
+    <!-- Detail screen -->
+    <string name="detail_screen_genre_heading">Genre</string>
+    <string name="detail_screen_rated_heading">Rated</string>
+    <string name="detail_screen_rating_heading">Rating</string>
+    <string name="detail_screen_rating">%1$s/10</string>
 </resources>

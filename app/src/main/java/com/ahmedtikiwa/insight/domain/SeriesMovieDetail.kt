@@ -11,5 +11,7 @@ data class SeriesMovieDetail(
     val runtime: String?,
     val rated: String?,
     val released: String?,
-    val imdbRating: String?
+    val imdbRating: String?,
+    val response: Boolean?,
+    val error: String?
 )
