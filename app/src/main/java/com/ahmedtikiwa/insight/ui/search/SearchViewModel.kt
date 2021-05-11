@@ -1,11 +1,12 @@
 package com.ahmedtikiwa.insight.ui.search
 
-import android.app.Application
-import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.*
+import androidx.savedstate.SavedStateRegistryOwner
 import com.ahmedtikiwa.insight.domain.SearchResultArg
 import com.ahmedtikiwa.insight.repository.OmdbRepository
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedFactory
+import dagger.assisted.AssistedInject
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -15,9 +16,9 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SearchViewModel @Inject constructor(
-    application: Application,
+    private val savedStateHandle: SavedStateHandle,
     private val repository: OmdbRepository
-) : AndroidViewModel(application) {
+) : ViewModel() {
 
     private val viewModelJob = SupervisorJob()
 
@@ -46,15 +47,35 @@ class SearchViewModel @Inject constructor(
         _seriesSearchRequest.postValue(true)
     }
 
+    init {
+        val searchType = savedStateHandle.get<String>(SEARCH_TYPE)
+
+        if (!searchType.isNullOrEmpty() && searchType == SEARCH_TYPE_MOVIE) {
+            viewModelScope.launch {
+                savedStateHandle.get<String>(SEARCH_QUERY)?.let { repository.getMovieSearch(it) }
+            }
+        } else if (!searchType.isNullOrEmpty() && searchType == SEARCH_TYPE_SERIES){
+            viewModelScope.launch {
+                savedStateHandle.get<String>(SEARCH_QUERY)?.let { repository.getSeriesSearch(it) }
+            }
+        }
+    }
+
     fun onMovieQueryReceived(query: String) {
+        savedStateHandle.set(SEARCH_QUERY, query)
+        savedStateHandle.set(SEARCH_TYPE, SEARCH_TYPE_MOVIE)
+
         viewModelScope.launch {
-            repository.getMovieSearch(query)
+            savedStateHandle.get<String>(SEARCH_QUERY)?.let { repository.getMovieSearch(it) }
         }
     }
 
     fun onSeriesQueryReceived(query: String) {
+        savedStateHandle.set(SEARCH_QUERY, query)
+        savedStateHandle.set(SEARCH_TYPE, SEARCH_TYPE_SERIES)
+
         viewModelScope.launch {
-            repository.getSeriesSearch(query)
+            savedStateHandle.get<String>(SEARCH_QUERY)?.let { repository.getSeriesSearch(it) }
         }
     }
 
@@ -69,6 +90,33 @@ class SearchViewModel @Inject constructor(
 
     fun navigateToDetailComplete() {
         _selectedResult.postValue(null)
+    }
+
+    companion object {
+        const val SEARCH_QUERY = "query"
+        const val SEARCH_TYPE = "search_type"
+        const val SEARCH_TYPE_MOVIE = "movie"
+        const val SEARCH_TYPE_SERIES = "series"
+    }
+
+    @AssistedFactory
+    interface SearchViewModelFactory {
+        fun create(
+            owner: SavedStateRegistryOwner
+        ): Factory
+    }
+
+    class Factory @AssistedInject constructor(
+        @Assisted owner: SavedStateRegistryOwner,
+        private val repository: OmdbRepository
+    ) : AbstractSavedStateViewModelFactory(owner, null) {
+        override fun <T : ViewModel?> create(
+            key: String,
+            modelClass: Class<T>,
+            handle: SavedStateHandle
+        ): T {
+            return SearchViewModel(handle, repository) as T
+        }
     }
 
 }

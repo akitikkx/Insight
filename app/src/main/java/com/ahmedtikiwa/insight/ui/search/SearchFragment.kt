@@ -12,6 +12,7 @@ import com.ahmedtikiwa.insight.databinding.FragmentSearchBinding
 import com.ahmedtikiwa.insight.domain.SearchResultArg
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class SearchFragment : Fragment() {
@@ -19,7 +20,12 @@ class SearchFragment : Fragment() {
     private var _binding: FragmentSearchBinding? = null
     private val binding get() = _binding!!
 
-    private val viewModel by viewModels<SearchViewModel>()
+    @Inject
+    lateinit var searchViewModelFactory: SearchViewModel.SearchViewModelFactory
+
+    private val viewModel by viewModels<SearchViewModel> {
+        searchViewModelFactory.create(this)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
