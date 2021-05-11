@@ -33,7 +33,7 @@ and the following additional libraries:
 
 MIT License
 
-Copyright (c) 2021 Ahmed
+Copyright (c) 2021 Ahmed Tikiwa
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
