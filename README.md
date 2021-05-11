@@ -5,9 +5,6 @@ they are required to provide a title of either a movie or series. Searching can 
 or a series via the two call-to-action buttons presented. The results are displayed below the search
 field and the user can click on the result to view the details.
 
-# Insight
-Insight: Movies and TV Search
-
 ### Pre-requisites
 Please obtain an API key from http://www.omdbapi.com/ before launching the application. You will 
 need to place this key in gradle.properties as part of the OmdbKey property.
