@@ -34,13 +34,56 @@ and the following additional libraries:
   |_ ResultBindingAdapter.kt
   |_ SearchBindingAdapter.kt
 > di
+  |_ RepositoryModule.kt
 > domain
+  |_ MovieSearch.kt
+  |_ SearchResultArg.kt
+  |_ SeriesMovieDetail.kt
+  |_ SeriesSearch.kt
 > network
+  > models
+    |_ NetworkMovieSearchResponse.kt
+    |_ NetworkSeriesMovieDetailResponse.kt
+    |_ NetworkSeriesSearchResponse.kt
+  |_ OmdbConnectionInterceptor.kt
+  |_ OmdbService.kt
 > repository
+  |_ OmdbRepository.kt
 > ui
-> InsightApplication
-> MainActivity
+  > detail
+    |_ DetailFragment.kt
+    |_ DetailViewModel.kt
+  > search
+    |_ SearchFragment.kt
+    |_ SearchViewModel.kt
+|_ InsightApplication.kt
+|_ MainActivity.kt
 ```
+
+### adapters
+All the binding adapters for the search and result screen/section as well as for loading images via Glide
+
+### di
+All the related Dependency Injection classes such as modules for the Hilt component
+
+### domain
+Contained here are data classes whose attributes match the preference of the application as compared to 
+what is received from the network. For example, the `Response` attribute in the response from OMDb is 
+not a `Boolean` but a `String`, so the attribute contained in the data object from the network that is a `String`
+is converted to `Boolean` to perform `Boolean` related functions in the app. 
+
+### network
+The OMDb connection service and request interceptor
+
+### network > models
+The data classes modelled against the responses from OMDb
+
+### repository
+All data to the app originates from the repository. For `Insight: Movies and Series Search`, the repository
+performs the network call through the connection service and emits the data which the viewModels listen for.
+
+### ui
+All the screens in the app separated into - search and detail - and their respective fragments and viewModels
 
 ## Screenshots
 <img src="https://github.com/akitikkx/Insight/blob/main/screenshots/insight_screen_1.png" width="400"> <img src="https://github.com/akitikkx/Insight/blob/main/screenshots/insight_screen_2.png" width="400"> <img src="https://github.com/akitikkx/Insight/blob/main/screenshots/insight_screen_3.png" width="400"> <img src="https://github.com/akitikkx/Insight/blob/main/screenshots/insight_screen_4.png" width="400"> <img src="https://github.com/akitikkx/Insight/blob/main/screenshots/insight_screen_5.png" width="400">
