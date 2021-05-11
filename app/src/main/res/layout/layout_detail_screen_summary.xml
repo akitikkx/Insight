@@ -85,6 +85,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/detail_rating_heading"
+            app:showHideStringContent="@{viewModel.detail.imdbRating}"
             tools:text="8/10" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 

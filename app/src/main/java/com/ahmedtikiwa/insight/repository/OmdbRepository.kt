@@ -23,6 +23,9 @@ class OmdbRepository {
     private val _isLoading = MutableLiveData<Boolean>()
     val isLoading: LiveData<Boolean> = _isLoading
 
+    private val _error = MutableLiveData<String>()
+    val error: LiveData<String> = _error
+
     suspend fun getSeriesSearch(title: String) {
         withContext(Dispatchers.IO) {
             try {
@@ -31,6 +34,7 @@ class OmdbRepository {
                 _seriesSearch.postValue(response.asDomainModel())
                 _isLoading.postValue(false)
             } catch (e: Exception) {
+                _error.postValue(e.message)
                 _isLoading.postValue(false)
             }
         }
@@ -44,6 +48,7 @@ class OmdbRepository {
                 _movieSearch.postValue(response.asDomainModel())
                 _isLoading.postValue(false)
             } catch (e: Exception) {
+                _error.postValue(e.message)
                 _isLoading.postValue(false)
             }
         }
@@ -57,6 +62,7 @@ class OmdbRepository {
                 _detail.postValue(response.asDomainModel())
                 _isLoading.postValue(false)
             } catch (e: Exception) {
+                _error.postValue(e.message)
                 _isLoading.postValue(false)
             }
         }

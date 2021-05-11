@@ -123,6 +123,15 @@ class SearchFragment : Fragment() {
                 }
             }
         })
+
+        viewModel.error.observe(viewLifecycleOwner, {
+            if (it.isNotEmpty()) {
+                Snackbar.make(
+                    binding.root,
+                    it, Snackbar.LENGTH_LONG
+                ).show()
+            }
+        })
     }
 
     override fun onDestroyView() {
