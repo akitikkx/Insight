@@ -1,9 +1,9 @@
 package com.ahmedtikiwa.insight.ui.detail
 
-import android.app.Application
-import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.AbstractSavedStateViewModelFactory
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
+import androidx.savedstate.SavedStateRegistryOwner
 import com.ahmedtikiwa.insight.repository.OmdbRepository
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
@@ -13,39 +13,51 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
 
-class DetailViewModel @AssistedInject constructor(
-    application: Application,
-    repository: OmdbRepository,
-    @Assisted imdbID: String
-) : AndroidViewModel(application) {
+class DetailViewModel(
+    private val savedStateHandle: SavedStateHandle,
+    private val repository: OmdbRepository,
+    imdbID: String
+) : ViewModel() {
 
     private val viewModelJob = SupervisorJob()
 
     private val viewModelScope = CoroutineScope(viewModelJob + Dispatchers.Main)
 
-    val isLoading = repository.isLoading
-
     val detail = repository.detail
 
+    val isLoading = repository.isLoading
+
     init {
+        savedStateHandle.set(IMDB_ID, imdbID)
+
         viewModelScope.launch {
-            repository.getSeriesMovieDetail(imdbID)
+            savedStateHandle.get<String>(IMDB_ID)?.let { repository.getSeriesMovieDetail(it) }
         }
     }
 
     @AssistedFactory
     interface DetailViewModelFactory {
-        fun create(imdbID: String): DetailViewModel
+        fun create(
+            owner: SavedStateRegistryOwner,
+            imdbID: String
+        ): Factory
     }
 
     companion object {
-        fun provideFactory(
-            assistedFactory: DetailViewModelFactory,
-            imdbID: String
-        ): ViewModelProvider.Factory = object : ViewModelProvider.Factory {
-            override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-                return assistedFactory.create(imdbID) as T
-            }
+        const val IMDB_ID = "imdbId"
+    }
+
+    class Factory @AssistedInject constructor(
+        @Assisted owner: SavedStateRegistryOwner,
+        @Assisted private val imdbID: String,
+        private val repository: OmdbRepository
+    ) : AbstractSavedStateViewModelFactory(owner, null) {
+        override fun <T : ViewModel?> create(
+            key: String,
+            modelClass: Class<T>,
+            handle: SavedStateHandle
+        ): T {
+            return DetailViewModel(handle, repository, imdbID) as T
         }
     }
 }

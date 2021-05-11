@@ -21,13 +21,10 @@ class DetailFragment : Fragment() {
     private val args by navArgs<DetailFragmentArgs>()
 
     @Inject
-    lateinit var assistedFactory: DetailViewModel.DetailViewModelFactory
+    lateinit var detailViewModelFactory: DetailViewModel.DetailViewModelFactory
 
     private val viewModel by viewModels<DetailViewModel> {
-        DetailViewModel.provideFactory(
-            assistedFactory,
-            args.imdbID
-        )
+        detailViewModelFactory.create(this, args.imdbID)
     }
 
     override fun onCreateView(
