@@ -1,5 +1,5 @@
 # Insight: Movies and Series Search
-Insight: Movies and TV Search is a Jetpack-powered, MVVM Android application that retrieves movie
+Insight: Movies and TV Search is a Jetpack-powered, MVVM Kotlin Android application that retrieves movie
 and series information from the OMDb API. The user is presented with a search field upon entry where
 they are required to provide a title of either a movie or series. Searching can either be for a movie 
 or a series via the two call-to-action buttons presented. The results are displayed below the search
@@ -12,6 +12,19 @@ need to place this key in gradle.properties as part of the OmdbKey property.
 ```
 OmdbKey="[your API key goes here]"
 ```
+
+## Architecture
+The Insight: Movies and TV Search is built using Kotlin and the following Jetpack components:
+
+- ViewModel & LiveData 
+- Navigation
+- Hilt
+
+and the following additional libraries:
+
+- Retrofit & OkHttp
+- Glide
+- Material Design
 
 ### Screenshots
 <img src="https://github.com/akitikkx/Insight/blob/main/screenshots/insight_screen_1.png" width="400"> <img src="https://github.com/akitikkx/Insight/blob/main/screenshots/insight_screen_2.png" width="400"> <img src="https://github.com/akitikkx/Insight/blob/main/screenshots/insight_screen_3.png" width="400"> <img src="https://github.com/akitikkx/Insight/blob/main/screenshots/insight_screen_4.png" width="400"> <img src="https://github.com/akitikkx/Insight/blob/main/screenshots/insight_screen_5.png" width="400">
