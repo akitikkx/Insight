@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import com.ahmedtikiwa.insight.domain.MovieSearch
 import com.ahmedtikiwa.insight.domain.SeriesSearch
 import com.ahmedtikiwa.insight.domain.SeriesMovieDetail
+import com.ahmedtikiwa.insight.network.OmdbNetwork
 import com.ahmedtikiwa.insight.network.models.asDomainModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -26,6 +27,9 @@ class OmdbRepository {
     private val _error = MutableLiveData<String>()
     val error: LiveData<String> = _error
 
+    /**
+     * Query the OMDb API for the requested series title
+     */
     suspend fun getSeriesSearch(title: String) {
         withContext(Dispatchers.IO) {
             try {
@@ -40,6 +44,9 @@ class OmdbRepository {
         }
     }
 
+    /**
+     * Query the OMDb API for the requested movie title
+     */
     suspend fun getMovieSearch(title: String) {
         withContext(Dispatchers.IO) {
             try {
@@ -54,6 +61,9 @@ class OmdbRepository {
         }
     }
 
+    /**
+     * Get the movie/series information from the provided IMDb ID
+     */
     suspend fun getSeriesMovieDetail(imdbID: String) {
         withContext(Dispatchers.IO) {
             try {

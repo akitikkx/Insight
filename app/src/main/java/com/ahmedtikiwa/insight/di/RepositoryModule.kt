@@ -7,6 +7,9 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
+/**
+ * Provides the OMDb repository via Hilt
+ */
 @InstallIn(SingletonComponent::class)
 @Module
 class RepositoryModule {

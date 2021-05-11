@@ -28,8 +28,10 @@ class DetailViewModel(
     val isLoading = repository.isLoading
 
     init {
+        // save the current state using the IMDb ID as a reference
         savedStateHandle.set(IMDB_ID, imdbID)
 
+        // Get the movie/series information from the repository
         viewModelScope.launch {
             savedStateHandle.get<String>(IMDB_ID)?.let { repository.getSeriesMovieDetail(it) }
         }

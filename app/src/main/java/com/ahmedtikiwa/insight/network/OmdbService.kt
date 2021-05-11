@@ -1,8 +1,7 @@
-package com.ahmedtikiwa.insight.repository
+package com.ahmedtikiwa.insight.network
 
 import com.ahmedtikiwa.insight.network.models.NetworkMovieSearchResponse
 import com.ahmedtikiwa.insight.network.models.NetworkSeriesSearchReponse
-import com.ahmedtikiwa.insight.network.OmdbConnectionInterceptor
 import com.ahmedtikiwa.insight.network.models.NetworkSeriesMovieDetailResponse
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import kotlinx.coroutines.Deferred
@@ -12,7 +11,6 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
-import retrofit2.http.Path
 import retrofit2.http.Query
 import java.util.concurrent.TimeUnit
 

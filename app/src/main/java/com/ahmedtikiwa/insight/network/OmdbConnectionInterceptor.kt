@@ -6,7 +6,10 @@ import okhttp3.Interceptor
 import okhttp3.Request
 import okhttp3.Response
 
-
+/**
+ * Connection interceptor to ensure that the OMDb API key is included
+ * in every request
+ */
 class OmdbConnectionInterceptor : Interceptor {
 
     override fun intercept(chain: Interceptor.Chain): Response {

@@ -6,7 +6,11 @@ import com.ahmedtikiwa.insight.R
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.RequestOptions
+import timber.log.Timber
 
+/**
+ * Binding adapter for poster sized images using Glide
+ */
 @BindingAdapter("imageUrl")
 fun setImageUrl(imageView: ImageView, url: String?) {
     if (url.isNullOrEmpty()) {
@@ -25,10 +29,13 @@ fun setImageUrl(imageView: ImageView, url: String?) {
             )
             .into(imageView)
     } catch (e: Exception) {
-
+        Timber.d(e.message.toString())
     }
 }
 
+/**
+ * Binding adapter for wide-sized images using Glide
+ */
 @BindingAdapter("wideImageUrl")
 fun setWideImageUrl(imageView: ImageView, url: String?) {
     if (url.isNullOrEmpty()) {
@@ -43,6 +50,6 @@ fun setWideImageUrl(imageView: ImageView, url: String?) {
             .fallback(R.drawable.backdrop_background)
             .into(imageView)
     } catch (e: Exception) {
-
+        Timber.d(e.message.toString())
     }
 }

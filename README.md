@@ -19,6 +19,8 @@ OmdbKey="[your API key goes here]"
 - ViewModel & LiveData 
 - Navigation
 - SavedStateHandle with custom AbstractSavedStateViewModelFactory
+- View Binding
+- Data Binding
 
 and the following additional libraries:
 
