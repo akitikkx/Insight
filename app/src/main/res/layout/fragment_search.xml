@@ -9,10 +9,6 @@
             name="viewModel"
             type="com.ahmedtikiwa.insight.ui.search.SearchViewModel" />
 
-        <variable
-            name="result"
-            type="com.ahmedtikiwa.insight.domain.SearchResultArg" />
-
     </data>
 
     <androidx.core.widget.NestedScrollView

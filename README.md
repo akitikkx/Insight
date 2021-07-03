@@ -41,17 +41,17 @@ and the following additional libraries:
   |_ RepositoryModule.kt
 > domain
   |_ MovieSearch.kt
-  |_ SearchResultArg.kt
+  |_ SearchItem.kt
+  |_ SearchType.kt
   |_ SeriesMovieDetail.kt
-  |_ SeriesSearch.kt
 > network
   > models
-    |_ NetworkMovieSearchResponse.kt
+    |_ NetworkSearchResponse.kt
     |_ NetworkSeriesMovieDetailResponse.kt
-    |_ NetworkSeriesSearchResponse.kt
   |_ OmdbConnectionInterceptor.kt
   |_ OmdbService.kt
 > repository
+  |_ OmdbPagingSource.kt
   |_ OmdbRepository.kt
 > ui
   > detail
@@ -59,6 +59,8 @@ and the following additional libraries:
     |_ DetailViewModel.kt
   > search
     |_ SearchFragment.kt
+    |_ SearchResultsAdapter.kt
+    |_ SearchResultsLoadStateAdapter.kt
     |_ SearchViewModel.kt
 |_ InsightApplication.kt
 |_ MainActivity.kt
@@ -84,7 +86,8 @@ The data classes modelled against the responses from OMDb
 
 #### repository
 All data to the app originates from the repository. For `Insight: Movies and Series Search`, the repository
-performs the network call through the connection service and emits the data which the viewModels listen for.
+performs the network call through the connection service and emits the data which the viewModels listen for. This
+repository makes use of the Jetpack Paging 3 library to load the data from the network in a paged way.
 
 #### ui
 All the screens in the app separated into - search and detail - and their respective fragments and viewModels
