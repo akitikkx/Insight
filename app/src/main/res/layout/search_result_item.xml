@@ -7,33 +7,19 @@
 
         <variable
             name="result"
-            type="com.ahmedtikiwa.insight.domain.SearchResultArg" />
+            type="com.ahmedtikiwa.insight.domain.SearchItem" />
 
         <variable
-            name="viewModel"
-            type="com.ahmedtikiwa.insight.ui.search.SearchViewModel" />
+            name="listener"
+            type="com.ahmedtikiwa.insight.ui.search.SearchResultsAdapter.SearchResultsAdapterListener" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/textview_search_results_title"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/margin_horizontal_standard"
-            android:layout_marginTop="@dimen/margin_vertical_standard"
-            android:layout_marginEnd="@dimen/margin_horizontal_standard"
-            android:text="@string/search_results_title"
-            android:textAppearance="?attr/textAppearanceHeadline5"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:text="Search Results" />
-
         <com.google.android.material.card.MaterialCardView
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/margin_horizontal_standard"
             android:layout_marginTop="@dimen/margin_vertical_standard"
@@ -41,9 +27,11 @@
             android:layout_marginBottom="@dimen/margin_vertical_half"
             android:clickable="true"
             android:focusable="true"
-            android:onClick="@{() -> viewModel.onSearchResultClick(result)}"
+            android:onClick="@{(view) -> listener.onResultClick(view, result.imdbID)}"
             app:cardPreventCornerOverlap="false"
-            app:layout_constraintTop_toBottomOf="@id/textview_search_results_title">
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"

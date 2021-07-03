@@ -1,8 +1,10 @@
 package com.ahmedtikiwa.insight.ui.search
 
 import androidx.lifecycle.*
+import androidx.paging.PagingData
+import androidx.paging.cachedIn
 import androidx.savedstate.SavedStateRegistryOwner
-import com.ahmedtikiwa.insight.domain.SearchResultArg
+import com.ahmedtikiwa.insight.domain.SearchItem
 import com.ahmedtikiwa.insight.repository.OmdbRepository
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
@@ -30,16 +32,13 @@ class SearchViewModel @Inject constructor(
     private val _seriesSearchRequest = MutableLiveData<Boolean>()
     val seriesSearchRequest: LiveData<Boolean> = _seriesSearchRequest
 
-    val movieSearchResult = repository.movieSearch
+    val movieSearchResult = MediatorLiveData<PagingData<SearchItem>>()
 
-    val seriesSearchResult = repository.seriesSearch
+    val seriesSearchResult = MediatorLiveData<PagingData<SearchItem>>()
 
     val isLoading = repository.isLoading
 
     val error = repository.error
-
-    private val _selectedResult = MutableLiveData<SearchResultArg?>()
-    val selectedResult: LiveData<SearchResultArg?> = _selectedResult
 
     /**
      * Invoked when the user clicks on 'Search Movie' to trigger the fragment
@@ -64,11 +63,23 @@ class SearchViewModel @Inject constructor(
         // retrieving the movie/series detail based on the saved state if not null
         if (!searchType.isNullOrEmpty() && searchType == SEARCH_TYPE_MOVIE) {
             viewModelScope.launch {
-                savedStateHandle.get<String>(SEARCH_QUERY)?.let { repository.getMovieSearch(it) }
+                savedStateHandle.get<String>(SEARCH_QUERY)?.let {
+                    movieSearchResult.addSource(
+                        repository.getMovieSearch(it).cachedIn(this)
+                    ) { result ->
+                        movieSearchResult.value = result
+                    }
+                }
             }
-        } else if (!searchType.isNullOrEmpty() && searchType == SEARCH_TYPE_SERIES){
+        } else if (!searchType.isNullOrEmpty() && searchType == SEARCH_TYPE_SERIES) {
             viewModelScope.launch {
-                savedStateHandle.get<String>(SEARCH_QUERY)?.let { repository.getSeriesSearch(it) }
+                savedStateHandle.get<String>(SEARCH_QUERY)?.let {
+                    seriesSearchResult.addSource(
+                        repository.getSeriesSearch(it).cachedIn(this)
+                    ) { result ->
+                        seriesSearchResult.value = result
+                    }
+                }
             }
         }
     }
@@ -84,7 +95,13 @@ class SearchViewModel @Inject constructor(
 
         // Query the repository for the requested movie title
         viewModelScope.launch {
-            savedStateHandle.get<String>(SEARCH_QUERY)?.let { repository.getMovieSearch(it) }
+            savedStateHandle.get<String>(SEARCH_QUERY)?.let {
+                movieSearchResult.addSource(
+                    repository.getMovieSearch(it).cachedIn(this)
+                ) { result ->
+                    movieSearchResult.value = result
+                }
+            }
         }
     }
 
@@ -99,15 +116,14 @@ class SearchViewModel @Inject constructor(
 
         // Query the repository for the requested series title
         viewModelScope.launch {
-            savedStateHandle.get<String>(SEARCH_QUERY)?.let { repository.getSeriesSearch(it) }
+            savedStateHandle.get<String>(SEARCH_QUERY)?.let {
+                seriesSearchResult.addSource(
+                    repository.getSeriesSearch(it).cachedIn(this)
+                ) { result ->
+                    seriesSearchResult.value = result
+                }
+            }
         }
-    }
-
-    /**
-     * Invoked when the user clicks on the search result to view the details
-     */
-    fun onSearchResultClick(result: SearchResultArg) {
-        _selectedResult.postValue(result)
     }
 
     /**
@@ -116,13 +132,6 @@ class SearchViewModel @Inject constructor(
     fun onSearchRequestCompleted() {
         _movieSearchRequest.postValue(false)
         _seriesSearchRequest.postValue(false)
-    }
-
-    /**
-     * Clearing the current selected result once navigation has completed
-     */
-    fun navigateToDetailComplete() {
-        _selectedResult.postValue(null)
     }
 
     companion object {

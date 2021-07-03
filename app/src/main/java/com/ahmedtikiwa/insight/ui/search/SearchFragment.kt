@@ -4,24 +4,31 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import androidx.paging.LoadState
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.ahmedtikiwa.insight.R
 import com.ahmedtikiwa.insight.databinding.FragmentSearchBinding
-import com.ahmedtikiwa.insight.domain.SearchResultArg
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class SearchFragment : Fragment() {
+class SearchFragment : Fragment(), SearchResultsAdapter.SearchResultsAdapterListener {
 
     private var _binding: FragmentSearchBinding? = null
     private val binding get() = _binding!!
 
     @Inject
     lateinit var searchViewModelFactory: SearchViewModel.SearchViewModelFactory
+
+    private lateinit var searchResultsAdapter: SearchResultsAdapter
 
     private val viewModel by viewModels<SearchViewModel> {
         searchViewModelFactory.create(this)
@@ -42,6 +49,19 @@ class SearchFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        searchResultsAdapter = SearchResultsAdapter(this)
+
+        binding.apply {
+            searchResults.setHasFixedSize(true)
+            searchResults.adapter = searchResultsAdapter.withLoadStateHeaderAndFooter(
+                header = SearchResultsLoadStateAdapter { searchResultsAdapter.retry() },
+                footer = SearchResultsLoadStateAdapter { searchResultsAdapter.retry() }
+            )
+            searchResults.layoutManager = LinearLayoutManager(requireContext()).apply {
+                orientation = LinearLayoutManager.VERTICAL
+            }
+        }
 
         viewModel.movieSearchRequest.observe(viewLifecycleOwner, {
             if (it) {
@@ -72,57 +92,31 @@ class SearchFragment : Fragment() {
         })
 
         viewModel.movieSearchResult.observe(viewLifecycleOwner, { movieResult ->
-            if (movieResult != null && movieResult.response == true) {
-                binding.result = SearchResultArg(
-                    poster = movieResult.poster,
-                    title = movieResult.title,
-                    year = movieResult.year,
-                    imdbID = movieResult.imdbID,
-                    response = movieResult.response,
-                    error = movieResult.error
-                )
-            } else if (movieResult.response == false) {
-                movieResult.error?.let {
-                    Snackbar.make(
-                        binding.root,
-                        it, Snackbar.LENGTH_LONG
-                    ).show()
-                }
-            }
+            searchResultsAdapter.submitData(viewLifecycleOwner.lifecycle, movieResult)
         })
 
         viewModel.seriesSearchResult.observe(viewLifecycleOwner, { seriesResult ->
-            if (seriesResult != null && seriesResult.response == true) {
-                binding.result = SearchResultArg(
-                    poster = seriesResult.poster,
-                    title = seriesResult.title,
-                    year = seriesResult.year,
-                    imdbID = seriesResult.imdbID,
-                    response = seriesResult.response,
-                    error = seriesResult.error
-                )
-            } else if (seriesResult.response == false) {
-                seriesResult.error?.let {
+            searchResultsAdapter.submitData(viewLifecycleOwner.lifecycle, seriesResult)
+        })
+
+        lifecycleScope.launch {
+            searchResultsAdapter.loadStateFlow.collectLatest { loadState ->
+                if (loadState.refresh is LoadState.Loading) {
                     Snackbar.make(
                         binding.root,
-                        it, Snackbar.LENGTH_LONG
+                        getString(R.string.list_loading_message),
+                        Snackbar.LENGTH_LONG
+                    ).show()
+                } else if (loadState.refresh is LoadState.Error) {
+                    val error = (loadState.refresh as LoadState.Error).error.message
+                    Toast.makeText(
+                        requireContext(),
+                        getString(R.string.list_loading_error, error),
+                        Toast.LENGTH_LONG
                     ).show()
                 }
             }
-        })
-
-        viewModel.selectedResult.observe(viewLifecycleOwner, { searchResult ->
-            if (searchResult != null) {
-                searchResult.imdbID?.let {
-                    findNavController().navigate(
-                        SearchFragmentDirections.actionSearchFragmentToDetailFragment(
-                            it
-                        )
-                    )
-                    viewModel.navigateToDetailComplete()
-                }
-            }
-        })
+        }
 
         viewModel.error.observe(viewLifecycleOwner, {
             if (it.isNotEmpty()) {
@@ -137,5 +131,13 @@ class SearchFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    override fun onResultClick(view: View, imdbId: String) {
+        findNavController().navigate(
+            SearchFragmentDirections.actionSearchFragmentToDetailFragment(
+                imdbId
+            )
+        )
     }
 }

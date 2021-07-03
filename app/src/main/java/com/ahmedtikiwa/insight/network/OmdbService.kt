@@ -1,7 +1,6 @@
 package com.ahmedtikiwa.insight.network
 
-import com.ahmedtikiwa.insight.network.models.NetworkMovieSearchResponse
-import com.ahmedtikiwa.insight.network.models.NetworkSeriesSearchReponse
+import com.ahmedtikiwa.insight.network.models.NetworkSearchResponse
 import com.ahmedtikiwa.insight.network.models.NetworkSeriesMovieDetailResponse
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import kotlinx.coroutines.Deferred
@@ -18,15 +17,17 @@ interface OmdbService {
 
     @GET("/")
     fun getSeriesSearchAsync(
-        @Query("t") t: String,
-        @Query("type") type: String = "series"
-    ): Deferred<NetworkSeriesSearchReponse>
+        @Query("s") s: String,
+        @Query("type") type: String = "series",
+        @Query("page") page: Int
+    ): Deferred<NetworkSearchResponse>
 
     @GET("/")
     fun getMovieSearchAsync(
-        @Query("t") t: String,
-        @Query("type") type: String = "movie"
-    ): Deferred<NetworkMovieSearchResponse>
+        @Query("s") s: String,
+        @Query("type") type: String = "movie",
+        @Query("page") page: Int
+    ): Deferred<NetworkSearchResponse>
 
     @GET("/")
     fun getSeriesMovieDetailAsync(

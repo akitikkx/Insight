@@ -1,10 +1,8 @@
 package com.ahmedtikiwa.insight.domain
 
-data class SeriesSearch(
+data class SearchItem(
     val poster: String?,
     val title: String?,
     val year: String?,
-    val imdbID: String?,
-    val response: Boolean?,
-    val error: String?
+    val imdbID: String?
 )

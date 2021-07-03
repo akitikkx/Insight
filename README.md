@@ -21,6 +21,7 @@ OmdbKey="[your API key goes here]"
 - SavedStateHandle with custom AbstractSavedStateViewModelFactory
 - View Binding
 - Data Binding
+- Paging 3
 
 and the following additional libraries:
 
@@ -95,7 +96,7 @@ All the screens in the app separated into - search and detail - and their respec
 The entry point for the app and the container for the `Navigation`'s `NavHostFragment`
 
 ## Screenshots
-<img src="https://github.com/akitikkx/Insight/blob/main/screenshots/insight_screen_1.png" width="400"> <img src="https://github.com/akitikkx/Insight/blob/main/screenshots/insight_screen_2.png" width="400"> <img src="https://github.com/akitikkx/Insight/blob/main/screenshots/insight_screen_3.png" width="400"> <img src="https://github.com/akitikkx/Insight/blob/main/screenshots/insight_screen_4.png" width="400"> <img src="https://github.com/akitikkx/Insight/blob/main/screenshots/insight_screen_5.png" width="400">
+<img src="https://github.com/akitikkx/Insight/blob/main/screenshots/insight_screen_1.png" width="400"> <img src="https://github.com/akitikkx/Insight/blob/main/screenshots/insight_screen_2.png" width="400"> <img src="https://github.com/akitikkx/Insight/blob/main/screenshots/insight_screen_3.png" width="400"> <img src="https://github.com/akitikkx/Insight/blob/main/screenshots/insight_screen_4.png" width="400">
 
 ## License
 

@@ -10,6 +10,10 @@
     <string name="search_screen_series_input_empty_error">Please provide a series title</string>
     <string name="search_results_title">Search Results</string>
     <string name="result_poster">%1$s poster</string>
+    <string name="load_state_error_default">There was an error loading the results</string>
+    <string name="load_state_retry_button">Retry</string>
+    <string name="list_loading_message">Loading…</string>
+    <string name="list_loading_error">There was an error fetching the results: %1$s</string>
 
     <!-- Detail screen -->
     <string name="detail_screen_genre_heading">Genre</string>
